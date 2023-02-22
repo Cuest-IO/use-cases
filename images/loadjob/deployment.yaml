@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: loadjob
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: loadjob
+  template:
+    metadata:
+      labels:
+        app: loadjob
+    spec:
+      containers:
+      - name: loadjob
+        image: srostyslav/loadjob:v0.0.3
+        env:
+        - name: Duration
+          value: "180" # seconds
+        - name: CPUSleep
+          value: "10000" # cores
+        - name: RAM
+          value: "20" # mb
+        - name: ExitCode
+          value: "1" # 0 - success, otherwise error

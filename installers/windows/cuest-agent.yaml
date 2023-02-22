@@ -1,0 +1,64 @@
+# websocket configuration
+ws:
+    server: wss://clzc5avz50.execute-api.us-east-1.amazonaws.com/dev  # ws://localhost:8080/ws_connect # websocket server
+    pingInterval: 20s # interval in which ping/pong message has to be received from AP.
+
+# device configuration
+device:
+    id: b296e22b-66a6-4fb6-a215-3549aabae0bd # unique device identifier
+
+    # A minimum percent of the battery remaining capacity which is necessary for creating 
+    # components in k8s. If the battery capacity is lower than the percent then
+    # Agent will refuse all new CreatePod commands and drops all components which were created before.
+    batteryCapacity: 20
+
+    # A minimum percent of the remaining capacity which is necessary for creating 
+    # components in k8s. If at least one of the capacity is lower than the percent then
+    # Agent will refuse all new CreatePod commands and starts to drop components which were created before.
+    resourceCapacity:
+      cpus: 1 # cores
+      ramMB: 1000 # mb
+
+    # Spikes are a list of intervals (in seconds) in which local station's details were updated. 
+    # There is choosed a shorter interval that satisfies at least one of significant changes.
+    spikes:
+      - interval: 10s
+        sendToConnector: false
+        significantChanges:
+            cpu: 0
+            ram: 0
+            disk: 0
+      - interval: 3s
+        sendToConnector: true
+        significantChanges:
+            cpu: 0.05
+            ram: 0.05
+            disk: 0.02
+      - interval: 1s
+        sendToConnector: true
+        significantChanges:
+            cpu: 0.1
+            ram: 0.1
+            disk: 0.05
+
+# k8s distro
+distro:
+    type: none # possible - colima, minikube, none
+    namespace: agent # default namespace in which k8s components will be running
+    configPath: # a path to k8s config path (fill only if it isn't placed in $HOME/.kube) 
+    vm: # virtual machine settings
+        # type of virtual machine:
+        # 1. hyperv - for windows. 
+        # 2. lima - for linux, macOS and colima distro.
+        # 3. none - disable virtual machine configuration in an agent.
+        type: none
+        cpus: 2 # count of cpu units
+        ramMB: 2200 # amount of RAM allocated
+        diskSizeGB: 20 # amount of disk size allocated
+        # A minimum percent of the remaining capacity in vm which is necessary for creating 
+        # components in k8s. If at least one of the capacity is lower than the percent then
+        # Agent will refuse all new CreatePod commands and starts to drop components which were created before.
+        resourceCapacity:
+          ramMB: 1500 # mb
+
+debugLevel: debug # possible - trace, debug, notice, warning, error
