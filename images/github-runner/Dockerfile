@@ -30,12 +30,4 @@ RUN groupadd --gid $USER_GID $USERNAME \
     && echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME \
     && chmod 0440 /etc/sudoers.d/$USERNAME
 
-#RUN curl -o actions-runner-linux-x64-2.300.2.tar.gz -L https://github.com/actions/runner/releases/download/v2.300.2/actions-runner-linux-x64-2.300.2.tar.gz
-
-#RUN tar xzf ./actions-runner-linux-x64-2.300.2.tar.gz
-
-#RUN ./bin/installdependencies.sh
-
-#RUN chmod -R 777 /actions-runner
-
 CMD [ "./runner" ]
