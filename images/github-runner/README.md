@@ -1,4 +1,4 @@
-# Loadjob
+# Github runner
 The service run github runner.
 
 # Config
