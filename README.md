@@ -5,12 +5,10 @@
 ## Content
 
 1. [Images](https://github.com/Cuest-IO/utilities/blob/main/images):
-
-- [Loadjob](https://github.com/Cuest-IO/utilities/blob/main/images/loadjob) generates CPU and RAM load.
+    - [Loadjob](https://github.com/Cuest-IO/utilities/blob/main/images/loadjob) generates CPU and RAM load.
 
 2. [Usecases](https://github.com/Cuest-IO/utilities/blob/main/usecases):
-
-- [GitHub runner](https://github.com/Cuest-IO/utilities/blob/main/usecases/github-runner) is the self-hosted runner in Kubernetes
+    - [GitHub runner](https://github.com/Cuest-IO/utilities/blob/main/usecases/github-runner) is the self-hosted runner in Kubernetes
 
 ## Contributing
 
