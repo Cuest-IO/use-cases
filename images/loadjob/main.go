@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"log"
 	"math"
 	"os"
@@ -13,8 +12,6 @@ import (
 	"strings"
 	"syscall"
 	"time"
-
-	"github.com/shirou/gopsutil/v3/cpu"
 )
 
 var (
@@ -35,8 +32,8 @@ func init() {
 	if seconds <= 0 {
 		seconds = 60 * 2
 	}
-	config.Duration = time.Duration(seconds) * time.Second
 
+	config.Duration = time.Duration(seconds) * time.Second
 }
 
 func getRAM(ctx context.Context) int {
@@ -44,19 +41,6 @@ func getRAM(ctx context.Context) int {
 	memStats := &runtime.MemStats{}
 	runtime.ReadMemStats(memStats)
 	return int((memStats.StackInuse + memStats.HeapInuse) / (1 << 20))
-}
-
-func getCPU(ctx context.Context) (int, float64, error) {
-
-	cpuPercents, err := cpu.PercentWithContext(ctx, time.Second*2, false)
-	if err != nil {
-		return 0, 0, err
-	} else if len(cpuPercents) != 1 {
-		return 0, 0, fmt.Errorf("expected one element of CPU: %+v", cpuPercents)
-	}
-
-	cores, err := getCPUCores()
-	return int(cpuPercents[0]), cores, err
 }
 
 func loadRAM(ctx context.Context) {
@@ -99,7 +83,7 @@ func loadCPU(ctx context.Context) {
 	go compute(ctx)
 	for {
 
-		val, cores, err := getCPU(ctx)
+		cores, err := getCPUCores()
 		if err != nil {
 
 			log.Println(err)
@@ -109,7 +93,8 @@ func loadCPU(ctx context.Context) {
 		}
 
 		mem := getRAM(ctx)
-		log.Printf("total CPU: %d%%; cores: %0.4f; Mem %d mb\n", val, cores, mem)
+		log.Printf("cores: %0.4f; Mem %d mb\n", cores, mem)
+		time.Sleep(time.Second)
 	}
 }
 

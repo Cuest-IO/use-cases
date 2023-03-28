@@ -1,17 +1,33 @@
 # Loadjob
-The service makes CPU and RAM load.
 
-# Run
-Use environment variables to setup the service:
-- CPUSleep is nanoseconds which control CPU load. If it is not present, it will load 100% CPU.
-- RAM is amount of RAM in megabytes which you want to allocate.
-- Duration is the running interval in seconds. After the duration service is exit. (default 180 seconds)
-- ExitCode is code in which service will finish (0 - success, otherwise error)  
+## This service generates CPU and RAM load.
 
+## Technologies Used
+
+This service has been developed using the Go 18 programming language.
+
+## Usage
+
+To use this service, follow these steps:
+
+1. Install [Golang](https://go.dev/doc/install) 
+2. Navigate to the root directory of the project.
+3. Set the appropriate environment variables and initiate the service.
 ```shell
-export CPUSleep=100000
-export RAM=100
-export Duration=60
-export ExitCode=0
+export CPUSleep=100000 # measured in nanoseconds, controls the CPU load of the service. If it is not specified, the service will utilize 100% of the CPU.
+export RAM=100 # refers to the amount of memory, measured in megabytes, that you want to allocate for the service.
+export Duration=60 # refers to the running interval of the service, measured in seconds. After the specified duration has elapsed, the service will exit. (default 180 seconds)
+export ExitCode=0 # the code that the service will return upon completion (0 for success, and any other value indicating an error).
+
 go run main.go
 ```
+
+Alternatively, you can use this service within a container. [link](https://github.com/Cuest-IO/utilities/blob/main/images/loadjob/deployment.yaml) 
+
+## Contributing
+
+If you wish to contribute to this service, please submit a pull request with your proposed changes.
+
+## License
+
+This service is licensed under the [MIT License](https://opensource.org/licenses/MIT).
