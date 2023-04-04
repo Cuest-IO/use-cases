@@ -1,14 +1,12 @@
 # Utilities
 
-## This repo contains usecases and docker images. 
+## This repo contains usecases. 
 
 ## Content
 
-1. [Images](https://github.com/Cuest-IO/utilities/blob/main/images):
-    - [Loadjob](https://github.com/Cuest-IO/utilities/blob/main/images/loadjob) generates CPU and RAM load.
+1. [Loadjob](https://github.com/Cuest-IO/utilities/blob/main/loadjob) generates CPU and RAM load.
 
-2. [Usecases](https://github.com/Cuest-IO/utilities/blob/main/usecases):
-    - [GitHub runner](https://github.com/Cuest-IO/utilities/blob/main/usecases/github-runner) is the self-hosted runner in Kubernetes
+2. [GitHub runner](https://github.com/Cuest-IO/utilities/blob/main/github-runner) is the self-hosted runner in Kubernetes
 
 ## Contributing
 
