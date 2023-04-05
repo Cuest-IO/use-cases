@@ -30,7 +30,7 @@ helm upgrade --install --namespace actions-runner-system --create-namespace\
   --wait actions-runner-controller actions-runner-controller/actions-runner-controller
 ```
 
-5. Create the GitHub self hosted runners and configure to run against your repository. Apply a [runnerdeployment.yaml](https://github.com/Cuest-IO/utilities/blob/main/usecases/github-runner/deployment.yaml) file:
+5. Create the GitHub self hosted runners and configure to run against your repository. Apply a [runnerdeployment.yaml](https://github.com/Cuest-IO/use-cases/blob/main/usecases/github-runner/deployment.yaml) file:
 ```shell
 kubectl apply -f runnerdeployment.yaml
 ```

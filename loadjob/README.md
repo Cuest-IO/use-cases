@@ -22,7 +22,7 @@ export ExitCode=0 # the code that the service will return upon completion (0 for
 go run main.go
 ```
 
-Alternatively, you can use this service within a container. [link](https://github.com/Cuest-IO/utilities/blob/main/images/loadjob/deployment.yaml) 
+Alternatively, you can use this service within a container. [link](https://github.com/Cuest-IO/use-cases/blob/main/images/loadjob/deployment.yaml) 
 
 ## Contributing
 

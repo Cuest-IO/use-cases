@@ -1,12 +1,12 @@
-# Utilities
+# Use cases
 
 ## This repo contains usecases. 
 
 ## Content
 
-1. [Loadjob](https://github.com/Cuest-IO/utilities/blob/main/loadjob) generates CPU and RAM load.
+1. [Loadjob](https://github.com/Cuest-IO/use-cases/blob/main/loadjob) generates CPU and RAM load.
 
-2. [GitHub runner](https://github.com/Cuest-IO/utilities/blob/main/github-runner) is the self-hosted runner in Kubernetes
+2. [GitHub runner](https://github.com/Cuest-IO/use-cases/blob/main/github-runner) is the self-hosted runner in Kubernetes
 
 ## Contributing
 
