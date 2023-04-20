@@ -40,10 +40,3 @@ kubectl apply -f runnerdeployment.yaml
 1. [Actions Runner Controller Quickstart](https://github.com/actions/actions-runner-controller/blob/master/docs/quickstart.md)
 2. [Automatically scaling runners](https://github.com/actions/actions-runner-controller/blob/master/docs/automatically-scaling-runners.md)
 
-## Contributing
-
-If you wish to contribute to this service, please submit a pull request with your proposed changes.
-
-## License
-
-This service is licensed under the [MIT License](https://opensource.org/licenses/MIT).
