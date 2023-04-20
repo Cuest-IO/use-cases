@@ -28,6 +28,3 @@ Alternatively, you can use this service within a container. [link](https://githu
 
 If you wish to contribute to this service, please submit a pull request with your proposed changes.
 
-## License
-
-This service is licensed under the [MIT License](https://opensource.org/licenses/MIT).
