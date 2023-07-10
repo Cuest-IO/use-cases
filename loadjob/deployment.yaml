@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: loadjob
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: loadjob
@@ -14,13 +14,24 @@ spec:
     spec:
       containers:
       - name: loadjob
-        image: srostyslav/loadjob:v0.0.3
+        image: cuestio/loadjob:v0.1
+        resources:
+          limits:
+            cpu: 1000m
+            memory: 500Mi
         env:
         - name: Duration
-          value: "180" # refers to the running interval of the service, measured in seconds. After the specified duration has elapsed, the service will exit. (default 180 seconds)
-        - name: CPUSleep
-          value: "10000" # measured in nanoseconds, controls the CPU load of the service. If it is not specified, the service will utilize 100% of the CPU.
-        - name: RAM
-          value: "20" # refers to the amount of memory, measured in megabytes, that you want to allocate for the service.
+          value: "180" # seconds
+        - name: CPULimit
+          value: "1000" # millicores
+        - name: RAMLimit
+          value: "500" # Mib
         - name: ExitCode
-          value: "1" # the code that the service will return upon completion (0 for success, and any other value indicating an error).
+          value: "0" # 0 - success, otherwise error
+      nodeSelector:
+        type: virtual-kubelet
+      tolerations:
+      - key: virtual-kubelet.io/provider
+        operator: "Equal"
+        value: "cuest"
+        effect: NoSchedule
