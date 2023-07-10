@@ -2,31 +2,41 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"math"
 	"os"
 	"os/signal"
 	"runtime"
-	"runtime/debug"
 	"strconv"
-	"strings"
 	"syscall"
 	"time"
 )
 
 var (
 	config struct {
-		RAM      int
+		RAMLimit int
 		Duration time.Duration
-		CPUSleep int64
+		CPULimit int
 	}
 	startTime = time.Now()
 )
 
 func init() {
 
-	config.CPUSleep, _ = strconv.ParseInt(os.Getenv("CPUSleep"), 10, 64)
-	config.RAM, _ = strconv.Atoi(os.Getenv("RAM"))
+	// os.Setenv("CPULimit", "800")
+	// os.Setenv("RAMLimit", "10000")
+	// os.Setenv("Duration", "10")
+
+	config.CPULimit, _ = strconv.Atoi(os.Getenv("CPULimit"))
+
+	if config.CPULimit > 0 && config.CPULimit <= 1 {
+		config.CPULimit = config.CPULimit * 1000
+	} else if config.CPULimit > 1000 {
+		config.CPULimit = 1000 // 1000Mi, one full CPU
+	}
+
+	config.RAMLimit, _ = strconv.Atoi(os.Getenv("RAMLimit"))
 
 	seconds, _ := strconv.Atoi(os.Getenv("Duration"))
 	if seconds <= 0 {
@@ -45,72 +55,49 @@ func getRAM(ctx context.Context) int {
 
 func loadRAM(ctx context.Context) {
 
-	if config.RAM <= 0 {
+	if config.RAMLimit <= 0 {
 		return
 	}
 
-	var (
-		data []string
-	)
+	var m1, m2 int
+	m1 = getRAM(ctx)
+	// 1 Mebibyte = 1048576 bytes
+	s := make([]byte, config.RAMLimit*1048576)
+	if s != nil {
+		m2 = getRAM(ctx)
+		fmt.Println("total:", (m2 - m1))
 
-	for {
-
-		if getRAM(ctx) >= config.RAM {
-			time.Sleep(time.Second * 10)
-		} else {
-			data = append(data, strings.Repeat("a", 1000))
-			time.Sleep(time.Microsecond)
-		}
-	}
-
-}
-
-func compute(ctx context.Context) {
-	for i := 0; i < 50; i++ {
-		go func(i int) {
-			for {
-				math.Asinh(float64(math.E*float64(i)) * math.Pow(math.E, float64(i)))
-				if config.CPUSleep > 0 {
-					time.Sleep(time.Nanosecond * time.Duration(config.CPUSleep))
-				}
-			}
-		}(i)
 	}
 }
 
 func loadCPU(ctx context.Context) {
 
-	go compute(ctx)
+	onePreiodMillis := 100 * config.CPULimit / 1000
+	onePeriodSleep := 100 - onePreiodMillis
+	runtime.LockOSThread()
+	// endless loop
 	for {
+		begin := time.Now()
+		for {
+			// run one period
+			if time.Now().Sub(begin).Milliseconds() > int64(onePreiodMillis) {
 
-		cores, err := getCPUCores()
-		if err != nil {
-
-			log.Println(err)
-			time.Sleep(time.Second * 10)
-			continue
+				// log.Printf("break  time: %d", time.Now().Sub(begin).Milliseconds())
+				break
+			}
+			math.Asinh(float64(math.E*float64(5)) * math.Pow(math.E, float64(6)))
 
 		}
-
-		mem := getRAM(ctx)
-		log.Printf("cores: %0.4f; Mem %d mb\n", cores, mem)
-		time.Sleep(time.Second)
+		// sleep
+		time.Sleep(time.Duration(onePeriodSleep) * time.Millisecond)
+		// log.Printf("run time: %d", time.Now().Sub(begin).Milliseconds())
 	}
 }
 
-func getCPUCores() (float64, error) {
+func getCPUCores() int {
 
-	var rusage syscall.Rusage
-	if err := syscall.Getrusage(0, &rusage); err != nil {
-		return 0, err
-	}
-
-	gcstat := new(debug.GCStats)
-	debug.ReadGCStats(gcstat)
-	memStats := &runtime.MemStats{}
-	runtime.ReadMemStats(memStats)
-
-	return (float64(rusage.Stime.Nano()+rusage.Utime.Nano()) / float64(time.Now().UnixNano()-startTime.UnixNano())), nil
+	log.Printf("system vCPUs: %d", runtime.NumCPU())
+	return runtime.NumCPU()
 }
 
 func main() {

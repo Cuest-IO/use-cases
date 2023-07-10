@@ -1,0 +1,6 @@
+loadjob_new/deployment.yaml
+loadjob_new/Dockerfile
+loadjob_new/go.mod
+loadjob_new/loadjob.exe
+loadjob_new/main.go
+loadjob_new/README.md
