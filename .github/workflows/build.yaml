@@ -1,0 +1,6 @@
+name: Cuest Use Cases CI
+on:
+  pull_request:
+    branches:
+      - "main"
+      
