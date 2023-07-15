@@ -10,7 +10,11 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v3
-    
+      
+    - name: debug
+      run: |
+        pwd
+        ls -la
   LoadJob:
     needs: Init
     runs-on: ubuntu-latest
