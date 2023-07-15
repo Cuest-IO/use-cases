@@ -5,11 +5,19 @@ on:
       - "main"
 
 jobs:
-  LoadJob:
+  Init:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
       uses: actions/checkout@v3
+    
+  LoadJob:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: loadjob
+        
+    steps:
       
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v2
@@ -26,6 +34,6 @@ jobs:
     - name: Build and push Docker images
       uses: docker/build-push-action@v4.1.1
       with:
-        context: ./loadjob/
+        context: .
         push: true
         tags: use_case/loadjob:latest
