@@ -8,8 +8,8 @@ jobs:
   Init:
     runs-on: ubuntu-latest
     steps:
-#     - name: Checkout
-#       uses: actions/checkout@v3
+    - name: Checkout
+      uses: actions/checkout@v3
       
     - name: debug
       run: |
@@ -19,9 +19,9 @@ jobs:
   LoadJob:
     needs: Init
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: loadjob
+#     defaults:
+#       run:
+#         working-directory: loadjob
         
     steps:
     - name: debug
