@@ -19,7 +19,10 @@ jobs:
       - name: Build Docker image
         env:
           DOCKER_BUILDKIT: 1
-        run: docker build -t use-cases/loadjob:latest -f ./loadjob/Dockerfile ./loadjob/
+        run: |
+          echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login --username ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+          docker build -t use-cases/loadjob:latest -f ./loadjob/Dockerfile ./loadjob/
+          docker push use-cases/loadjob:latest
 
 #       - name: Build Docker image for ${{ matrix.project }}
 #         env:
