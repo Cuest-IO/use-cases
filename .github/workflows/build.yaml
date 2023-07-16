@@ -3,4 +3,31 @@ on:
   pull_request:
     branches:
       - "main"
-      
+
+jobs:
+        
+  LoadJob:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Docker
+        uses: docker/setup-buildx-action@v1
+
+      - name: Build Docker image
+        env:
+          DOCKER_BUILDKIT: 1
+        run: |
+          pwd
+          ls -la
+          echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login --username ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+          
+          docker build -t cuestio/loadjob:latest -f ./loadjob/Dockerfile ./loadjob/
+          docker push cuestio/loadjob:latest
+
+#       - name: Build Docker image for ${{ matrix.project }}
+#         env:
+#           DOCKER_BUILDKIT: 1
+#         run: docker build -t your-image-name:${{ matrix.project }} -f /path/to/${{ matrix.project }}/Dockerfile /path/to/${{ matrix.project }}
