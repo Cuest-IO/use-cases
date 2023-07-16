@@ -20,6 +20,8 @@ jobs:
         env:
           DOCKER_BUILDKIT: 1
         run: |
+          pwd
+          ls -la
           echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login --username ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
           docker build -t loadjob:latest -f ./loadjob/Dockerfile ./loadjob/
           docker push loadjob:latest
