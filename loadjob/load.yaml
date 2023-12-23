@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: loadjob
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: loadjob
+  template:
+    metadata:
+      labels:
+        app: loadjob
+    spec:
+      containers:
+      - name: loadjob1
+        image: cuestio/load-job:0.1
+        resources:
+          limits:
+            cpu: 300m
+            memory: 2000Mi
+        env:
+        - name: Duration
+          value: "200" # seconds
+        - name: CPULimit
+          value: "1000" # millicores
+        - name: RAMLimit
+          value: "200" # Mib
+        - name: ExitCode
+          value: "1" # 0 - success, otherwise error
+      
+      
